@@ -204,7 +204,7 @@ def loadModel():
 def main():
     
     showStatus("main")
-    #createModel()
+    createModel()
     loadModel()
     # test the system
     test_ingredients = "cotton mulmul"
