@@ -1,3 +1,6 @@
+# this is a streamlit version
+# aug 2021
+
 # Core Pkg
 import streamlit as st 
 import streamlit.components.v1 as stc 
