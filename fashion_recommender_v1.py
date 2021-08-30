@@ -20,10 +20,10 @@ from IPython.core.display import HTML
 # nltk.download('wordnet')
 
 # path to all files
-RECIPES_PATH = "/home/ec2-user/project-python/StylePari/saree_data.csv"
-PARSED_PATH = "/home/ec2-user/project-python/StylePari/saree_parsed_new.csv"
-TFIDF_ENCODING_PATH = "/home/ec2-user/project-python/StylePari/saree_tfidf_encodings.pkl"
-TFIDF_MODEL_PATH = "/home/ec2-user/project-python/StylePari/saree_tfidf.pkl"
+RECIPES_PATH = "/home/ec2-user/project-python/StylePari/data/saree_data.csv"
+PARSED_PATH = "/home/ec2-user/project-python/StylePari/data/saree_parsed_new.csv"
+TFIDF_ENCODING_PATH = "/home/ec2-user/project-python/StylePari/model/saree_tfidf_encodings.pkl"
+TFIDF_MODEL_PATH = "/home/ec2-user/project-python/StylePari/model/saree_tfidf.pkl"
 
 def showStatus(moduleName):
     debug_mode="Y"
