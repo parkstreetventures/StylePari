@@ -39,4 +39,19 @@ import matplotlib
 
 print(matplotlib.colors.to_rgb(color_name))
 
-print(matplotlib.colors.get_named_colors_mapping())
+#print(matplotlib.colors.get_named_colors_mapping())
+
+import re
+
+def color_to_rgb(color):
+    if color == 'none' or isinstance(color, (list, tuple)):
+        rgb = color
+    elif re.match('#', color):
+        rgb = webcolors.hex_to_rgb(color)
+    else:
+        rgb = webcolors.name_to_rgb(color)
+
+    return rgb 
+
+
+print(color_to_rgb(color_name))
