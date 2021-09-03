@@ -43,7 +43,7 @@ TFIDF_MODEL_PATH = "/home/ec2-user/project-python/StylePari/model/saree_tfidf.pk
 
 # debugging help file
 def showStatus(moduleName):
-    debug_mode="Y"
+    debug_mode="n"
     if debug_mode=="Y":
         print(moduleName)
 
@@ -231,24 +231,35 @@ def search_term_not_found(term):
     return df[df['ingredients_parsed'].str.contains(term)]
 
 
+def complementaryColor(color_choice):
+    return "blue"
+
+
 #def letRecommend(search_term, number_of_rec):
 def letRecommend(color_choice, fabric_choice):
     search_term = color_choice + " " + fabric_choice
-    st.write(search_term)
-    if search_term is not None:
-        try:
+    st.write("searching:" + search_term)
+    results = RecSys(search_term, 1)
+    st.write(results)
+    color_choice = complementaryColor(color_choice)
+    search_term = color_choice + " " + fabric_choice
+    st.write("searching:" + search_term)
+    results = RecSys(search_term, 2)
+    st.write(results)
+    #if search_term is not None:
+    #    try:
             # add a module to modify search ..
-            results = RecSys(search_term, 2)
-            st.write(results)
-            st.write("a logo and text next to eachother")
-            col1, mid, col2 = st.columns([1,1,20])
-            with col1:
-                st.image(results['url'], width=60)
-            with col2:
-                st.write('A Name')
-        except:
-            results = "not found"
-            st.warning(results)
+    #        results = RecSys(search_term, 2)
+    #        st.write(results)
+    #        st.write("a logo and text next to eachother")
+    #        col1, mid, col2 = st.columns([1,1,20])
+    #        with col1:
+    #            st.image(results['url'], width=60)
+    #        with col2:
+    #            st.write('A Name')
+    #    except:
+    #        results = "not found"
+    #        st.warning(results)
             # maybe recommend similar results as options
 
 
