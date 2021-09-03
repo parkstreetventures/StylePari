@@ -28,7 +28,7 @@ import pickle
 import unidecode, ast
 
 
-# nltk.download('wordnet')
+#nltk.download('wordnet')
 
 # that's all the libaries that we need ..........
 
@@ -148,7 +148,7 @@ def ingredient_parser(ingreds):
     '''
     #showStatus("ingredient parser")
     measures = [ 'cup', 'c', 'p', 'pt',  'deciliter', 'decilitre',  'pound', 'lb', '#', 'ounce', 'oz', 'mg', 'milligram', 'milligramme', 'g', 'gram', 'gramme', 'kg', 'kilogram', 'kilogramme', 'x', 'of', 'mm', 'millimetre', 'millimeter', 'cm', 'centimeter', 'centimetre', 'm', 'meter', 'metre', 'inch', 'in', 'milli', 'centi', 'deci', 'hecto', 'kilo']
-    words_to_remove = ['(',')','.','\'','fresh', 'oil', 'a', 'and',  'or',  'large', 'extra',  'free', 'small', 'from', 'higher', 'for', 'finely', 'freshly', 'to', 'organic', 'the', 'plain', 'plus' ]
+    words_to_remove = ['(',')','.','\'','with', 'matching', 'ba', 'gld', 'without', 'women','fresh', 'oil', 'a', 'and',  'or',  'large', 'extra',  'free', 'small', 'from', 'higher', 'for', 'finely', 'freshly', 'to', 'organic', 'the', 'plain', 'plus' ]
     # The ingredient list is now a string so we need to turn it back into a list. We use ast.literal_eval
     if isinstance(ingreds, list):
         ingredients = ingreds
@@ -234,7 +234,7 @@ def letRecommend(search_term, number_of_rec):
         try:
             # add a module to modify search ..
             results = RecSys(search_term, number_of_rec)
-            print(results)
+            st.write(results)
         except:
             results = "not found"
             st.warning(results)
@@ -257,7 +257,7 @@ def main():
     elif choice == "Recommend":
         st.subheader("Recommend")
         search_term = st.text_input("Search")
-        num_of_rec = st.sidebar.number_input("Number",4,10,7)
+        num_of_rec = st.sidebar.number_input("Number",1,10,7)
         if st.button("Recommend"):
             letRecommend(search_term, num_of_rec)
 
