@@ -234,7 +234,7 @@ def search_term_not_found(term):
 #def letRecommend(search_term, number_of_rec):
 def letRecommend(color_choice, fabric_choice):
     search_term = color_choice + " " + fabric_choice
-    st.write(research_term)
+    st.write(search_term)
     if search_term is not None:
         try:
             # add a module to modify search ..
