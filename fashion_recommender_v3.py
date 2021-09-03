@@ -2,6 +2,8 @@
 # we will save the model and reuse instead of creating it all the time
 # v3 Sep 2021
 
+# run this program - streamlit run /home/ec2-user/project-python/StylePari/fashion_recommender_v3.py
+#  
 # Core Pkg
 import streamlit as st 
 import streamlit.components.v1 as stc 
@@ -229,12 +231,21 @@ def search_term_not_found(term):
     return df[df['ingredients_parsed'].str.contains(term)]
 
 
-def letRecommend(search_term, number_of_rec):
+#def letRecommend(search_term, number_of_rec):
+def letRecommend(color_choice, fabric_choice):
+    search_term = color_choice + " " + fabric_choice
+    st.write(research_term)
     if search_term is not None:
         try:
             # add a module to modify search ..
-            results = RecSys(search_term, number_of_rec)
+            results = RecSys(search_term, 2)
             st.write(results)
+            st.write("a logo and text next to eachother")
+            col1, mid, col2 = st.columns([1,1,20])
+            with col1:
+                st.image(results['url'], width=60)
+            with col2:
+                st.write('A Name')
         except:
             results = "not found"
             st.warning(results)
@@ -256,10 +267,15 @@ def main():
     
     elif choice == "Recommend":
         st.subheader("Recommend")
-        search_term = st.text_input("Search")
-        num_of_rec = st.sidebar.number_input("Number",1,10,7)
+        #search_term = st.text_input("Search")
+        menu_color = ["red","blue","violet","green","pink"]
+        color_choice = st.sidebar.selectbox("Color", menu_color)
+        menu_fabric = ["linen", "silk", "cotton"]
+        fabric_choice = st.sidebar.selectbox("fabric", menu_fabric)
+        #num_of_rec = st.sidebar.number_input("Number",1,10,7)
         if st.button("Recommend"):
-            letRecommend(search_term, num_of_rec)
+            #letRecommend(search_term, num_of_rec)
+            letRecommend(color_choice, fabric_choice)
 
     else:
         st.subheader("About")
