@@ -35,10 +35,10 @@ import unidecode, ast
 # that's all the libaries that we need ..........
 
 # path to all files
-RECIPES_PATH = "/home/ec2-user/project-python/StylePari/data/saree_data.csv"
-PARSED_PATH = "/home/ec2-user/project-python/StylePari/data/saree_parsed_new.csv"
-TFIDF_ENCODING_PATH = "/home/ec2-user/project-python/StylePari/model/saree_tfidf_encodings.pkl"
-TFIDF_MODEL_PATH = "/home/ec2-user/project-python/StylePari/model/saree_tfidf.pkl"
+RECIPES_PATH = "./data/saree_data.csv"
+PARSED_PATH = "./data/saree_parsed_new.csv"
+TFIDF_ENCODING_PATH = "./model/saree_tfidf_encodings.pkl"
+TFIDF_MODEL_PATH = "./model/saree_tfidf.pkl"
 
 
 # debugging help file
@@ -269,7 +269,7 @@ def main():
     menu = ["Home","Recommend", "About"]
     choice = st.sidebar.selectbox("Menu", menu)
 
-    createModel()
+    #createModel()
     loadModel()
 
     if choice == "Home":
