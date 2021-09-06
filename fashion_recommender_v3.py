@@ -30,7 +30,7 @@ import pickle
 import unidecode, ast
 
 
-#nltk.download('wordnet')
+nltk.download('wordnet')
 
 # that's all the libaries that we need ..........
 
