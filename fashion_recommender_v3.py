@@ -30,7 +30,7 @@ import pickle
 import unidecode, ast
 
 
-nltk.download('wordnet')
+#nltk.download('wordnet')
 
 # that's all the libaries that we need ..........
 
@@ -75,7 +75,8 @@ def get_recommendations(N, scores):
     #print (recommendation)
     count = 0
     for i in top:
-        recommendation.at[count, 'url'] = df_recipes['recipe_urls'][i]
+        #recommendation.at[count, 'url'] = df_recipes['recipe_urls'][i]
+        recommendation.at[count, 'url'] = "./images/download_filename_1.jpg"
         recommendation.at[count, 'recipe'] = title_parser(df_recipes['recipe_name'][i])
         recommendation.at[count, 'desc'] = title_parser(df_recipes['desc'][i])
         #recommendation.at[count, 'ingredients'] = ingredient_parser_final(df_recipes['ingredients'][i])
@@ -232,7 +233,22 @@ def search_term_not_found(term):
 
 
 def complementaryColor(color_choice):
-    return "blue"
+    if color_choice=="red":
+        return "green"
+    elif color_choice=="blue":
+        return "orange"
+    elif color_choice=="orange":
+        return "blue"
+    elif color_choice=="yellow":
+        return "purple"
+    elif color_choice=="purple":
+        return "red, blue"
+    elif color_choice=="green":
+        return "yellow, blue"
+    elif color_choice=="orange":
+        return "yellow, red"
+    else:
+        return "white"
 
 
 #def letRecommend(search_term, number_of_rec):
@@ -240,27 +256,25 @@ def letRecommend(color_choice, fabric_choice):
     search_term = color_choice + " " + fabric_choice
     st.write("searching:" + search_term)
     results = RecSys(search_term, 1)
-    st.write(results)
+    write_results(results)
+    
     color_choice = complementaryColor(color_choice)
     search_term = color_choice + " " + fabric_choice
     st.write("searching:" + search_term)
     results = RecSys(search_term, 2)
-    st.write(results)
-    #if search_term is not None:
-    #    try:
-            # add a module to modify search ..
-    #        results = RecSys(search_term, 2)
-    #        st.write(results)
-    #        st.write("a logo and text next to eachother")
-    #        col1, mid, col2 = st.columns([1,1,20])
-    #        with col1:
-    #            st.image(results['url'], width=60)
-    #        with col2:
-    #            st.write('A Name')
-    #    except:
-    #        results = "not found"
-    #        st.warning(results)
-            # maybe recommend similar results as options
+    write_results(results)
+
+
+def write_results(results):
+    for ind in results.index:
+        col1, mid, col2 = st.columns([1,1,20])
+        with col1:
+                st.image(results['url'][ind], width=60)
+        with col2:
+                st.write(results['recipe'][ind])
+                st.write(results['desc'][ind])
+                score = "confidence :" + str(round(float(results['score'][ind])*100,0)) + "%"
+                st.write(score)
 
 
 def main():
@@ -279,7 +293,7 @@ def main():
     elif choice == "Recommend":
         st.subheader("Recommend")
         #search_term = st.text_input("Search")
-        menu_color = ["red","blue","violet","green","pink"]
+        menu_color = ["red","blue","violet","green","pink", "indigo", "yellow", "orange", "white"]
         color_choice = st.sidebar.selectbox("Color", menu_color)
         menu_fabric = ["linen", "silk", "cotton"]
         fabric_choice = st.sidebar.selectbox("fabric", menu_fabric)
