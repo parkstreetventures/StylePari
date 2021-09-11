@@ -40,6 +40,34 @@ def write_results(results):
                 st.write(score)
 
 
+def home():
+    st.subheader("Home")
+    st.write("please select on left to recommend")
+
+
+def about():
+    st.subheader("About")
+    st.text("Built with Streamlit & Pandas")
+    st.text("proof of concept")
+    st.write("questions: talk to me")
+
+
+def recommender():
+    st.subheader("Recommend")
+    #search_term = st.text_input("Search")
+
+    #menu_color = ["red","blue","violet","green","pink", "indigo", "yellow", "orange", "white"]
+    #color_choice = st.sidebar.selectbox("Color", menu_color)
+    color_choice = st.sidebar.color_picker("pick a color")
+    menu_fabric = ["linen", "silk", "cotton"]
+    fabric_choice = st.sidebar.selectbox("fabric", menu_fabric)
+    #num_of_rec = st.sidebar.number_input("Number",1,10,7)
+    if st.sidebar.button("Recommend"):
+        #letRecommend(search_term, num_of_rec)
+        color_choice_2 = cf.find_name(color_choice)
+        st.write("color choice: " + color_choice_2)
+        letRecommend(color_choice_2, fabric_choice)
+
 
 def main():
 
@@ -51,30 +79,13 @@ def main():
     rec.loadModel()
 
     if choice == "Home":
-        st.subheader("Home")
-        st.write("please select on left to recommend")
+        home()
     
     elif choice == "Recommend":
-        st.subheader("Recommend")
-        #search_term = st.text_input("Search")
-
-        menu_color = ["red","blue","violet","green","pink", "indigo", "yellow", "orange", "white"]
-        #color_choice = st.sidebar.selectbox("Color", menu_color)
-        color_choice_2 = st.sidebar.color_picker("pick a color")
-        menu_fabric = ["linen", "silk", "cotton"]
-        fabric_choice = st.sidebar.selectbox("fabric", menu_fabric)
-        #num_of_rec = st.sidebar.number_input("Number",1,10,7)
-        if st.sidebar.button("Recommend"):
-            #letRecommend(search_term, num_of_rec)
-            color_choice = cf.find_name(color_choice_2)
-            st.write("color choice: " + color_choice)
-            letRecommend(color_choice, fabric_choice)
+        recommender()
 
     else:
-        st.subheader("About")
-        st.text("Built with Streamlit & Pandas")
-        st.text("proof of concept")
-        st.write("questions: talk to me")
+        about()
 
 
 if __name__ == "__main__":
