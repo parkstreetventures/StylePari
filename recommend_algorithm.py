@@ -11,6 +11,7 @@ import string
 import ast
 import re
 import unidecode
+import unicodedata
 
 from nltk.stem import WordNetLemmatizer
 from nltk.corpus import wordnet
@@ -22,6 +23,9 @@ import unidecode, ast
 
 
 #nltk.download('wordnet')
+nltk.download('punkt')
+nltk.download('stopwords')
+nltk.download('wordnet')
 
 # that's all the libaries that we need ..........
 
@@ -129,21 +133,10 @@ def RecSys(ingredients, N=5):
 
 
 def ingredient_parser(ingreds):
-    '''
     
-    This function takes in a list (but it is a string as it comes from pandas dataframe) of 
-       ingredients and performs some preprocessing. 
-       For example:
-       input = '['1 x 1.6kg whole duck', '2 heaped teaspoons Chinese five-spice powder', '1 clementine',
-                 '6 fresh bay leaves', 'GRAVY', '', '1 bulb of garlic', '2 carrots', '2 red onions', 
-                 '3 tablespoons plain flour', '100 ml Marsala', '1 litre organic chicken stock']'
-       
-       output = ['duck', 'chinese five spice powder', 'clementine', 'fresh bay leaf', 'gravy', 'garlic',
-                 'carrot', 'red onion', 'plain flour', 'marsala', 'organic chicken stock']
-    '''
     #showStatus("ingredient parser")
     measures = [ 'cup', 'c', 'p', 'pt',  'deciliter', 'decilitre',  'pound', 'lb', '#', 'ounce', 'oz', 'mg', 'milligram', 'milligramme', 'g', 'gram', 'gramme', 'kg', 'kilogram', 'kilogramme', 'x', 'of', 'mm', 'millimetre', 'millimeter', 'cm', 'centimeter', 'centimetre', 'm', 'meter', 'metre', 'inch', 'in', 'milli', 'centi', 'deci', 'hecto', 'kilo']
-    words_to_remove = ['(',')','.','\'','with', 'matching', 'ba', 'gld', 'without', 'women','fresh', 'oil', 'a', 'and',  'or',  'large', 'extra',  'free', 'small', 'from', 'higher', 'for', 'finely', 'freshly', 'to', 'organic', 'the', 'plain', 'plus' ]
+    words_to_remove = ['(',')','.','\'','with', 'matching', 'ba', 'gld', 'without', 'women', 'woman','shubh','self','fresh', 'trendz','oil', 'a', 'and',  'or',  'large', 'extra',  'free', 'small', 'from', 'higher', 'for', 'finely', 'freshly', 'to', 'organic', 'the', 'plain', 'plus' ]
     # The ingredient list is now a string so we need to turn it back into a list. We use ast.literal_eval
     if isinstance(ingreds, list):
         ingredients = ingreds
@@ -164,18 +157,33 @@ def ingredient_parser(ingreds):
         items = [word for word in items if word.isalpha()]
         # Turn everything to lowercase
         items = [word.lower() for word in items]
+      
         # remove accents
         items = [unidecode.unidecode(word) for word in items] #''.join((c for c in unicodedata.normalize('NFD', items) if unicodedata.category(c) != 'Mn'))
+        items = [unicodedata.normalize('NFKD', word).encode('ascii', 'ignore').decode('utf-8', 'ignore') for word in items]
+        
         # Lemmatize words so we can compare words to measuring words
         items = [lemmatizer.lemmatize(word) for word in items]
         # Gets rid of measuring words/phrases, e.g. heaped teaspoon
         items = [word for word in items if word not in measures]
         # Get rid of common easy words
         items = [word for word in items if word not in words_to_remove]
+        # remove all square brackets
+        items = [remove_between_square_brackets(word) for word in items]
+        # remove all special characters
+        items = [remove_special_characters(word) for word in items]
         if items:
             ingred_list.append(' '.join(items)) 
     ingred_list = " ".join(ingred_list)
     return ingred_list
+
+def remove_between_square_brackets(text):
+    return re.sub('\[[^]]*\]', '', text)
+
+def remove_special_characters(text, remove_digits=True):
+    pattern = r'[^a-zA-z0-9\s]' if not remove_digits else r'[^a-zA-z\s]'
+    text = re.sub(pattern, '', text)
+    return text
 
 
 def createModel():
@@ -197,7 +205,7 @@ def createModel():
     df['recipe_name'].loc[m] = df.recipe_name.loc[m].str[:-23]        
     #df.to_csv(PARSED_PATH, index=False) #save the parsed file
     save_data(df,PARSED_PATH)
-
+    #recipe_df['ingredients_parsed'].to_csv("./data/saree_temp.csv", index=False)
 
 def loadModel():
     showStatus("loading model")

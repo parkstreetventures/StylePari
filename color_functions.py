@@ -50,23 +50,10 @@ def find_name(color):
 
 
 
+import random 
 
 def complementaryColor(color_choice):
-    if color_choice=="red":
-        return "green"
-    elif color_choice=="blue":
-        return "orange"
-    elif color_choice=="orange":
-        return "blue"
-    elif color_choice=="yellow":
-        return "purple"
-    elif color_choice=="purple":
-        return "red, blue"
-    elif color_choice=="green":
-        return "yellow, blue"
-    elif color_choice=="orange":
-        return "yellow, red"
-    else:
-        return "black"
+    random_choice = ['red','blue','black','white','green','olive']
+    return random.choice(random_choice)
 
 # end color functionality

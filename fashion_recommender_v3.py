@@ -11,7 +11,11 @@ import streamlit.components.v1 as stc
 import recommend_algorithm as rec
 import color_functions as cf
 
+from pathlib import Path
+import streamlit as st
 
+def read_markdown_file(markdown_file):
+    return Path(markdown_file).read_text()
 
 
 #def letRecommend(search_term, number_of_rec):
@@ -42,7 +46,8 @@ def write_results(results):
 
 def home():
     st.subheader("Home")
-    st.write("please select on left to recommend")
+    intro_markdown = read_markdown_file("introduction.md")
+    st.markdown(intro_markdown, unsafe_allow_html=True)
 
 
 def about():
@@ -75,7 +80,7 @@ def main():
     menu = ["Home","Recommend", "About"]
     choice = st.sidebar.selectbox("Menu", menu)
 
-    #rec.createModel()
+    rec.createModel()
     rec.loadModel()
 
     if choice == "Home":
