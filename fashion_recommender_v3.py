@@ -8,39 +8,35 @@
 import streamlit as st 
 import streamlit.components.v1 as stc 
 
-import recommend_algorithm as rec
-import color_functions as cf
+import fashion_recommender_algorithm as rec
 
 from pathlib import Path
-import streamlit as st
+
 
 def read_markdown_file(markdown_file):
     return Path(markdown_file).read_text()
 
 
-#def letRecommend(search_term, number_of_rec):
-def letRecommend(color_choice, fabric_choice):
-    search_term = color_choice + " " + fabric_choice
-    st.write("searching:" + search_term)
-    results = rec.RecSys(search_term, 1)
-    write_results(results)
-    
-    color_choice = cf.complementaryColor(color_choice)
-    search_term = color_choice + " " + fabric_choice
-    st.write("searching:" + search_term)
-    results = rec.RecSys(search_term, 2)
-    write_results(results)
+def goRecommend(color_choice, fabric_choice):
+    results = rec.recommendationEngine(color_choice, fabric_choice)
+    st.write(results)
+    #write_results(results)
 
 
 def write_results(results):
     for ind in results.index:
+        #score = "confidence :" + str(round(float(results['score'][ind])*100,0)) + "%"
+        score="0"
         col1, mid, col2 = st.columns([1,1,20])
+
         with col1:
-                st.image(results['url'][ind], width=60)
+                #st.image(results['url'][ind], width=60)
+                st.write("hello")
         with col2:
-                st.write(results['recipe'][ind])
+                st.write(ind)
+                st.write(results['title'])
                 st.write(results['desc'][ind])
-                score = "confidence :" + str(round(float(results['score'][ind])*100,0)) + "%"
+                st.write(results['color'][ind])
                 st.write(score)
 
 
@@ -68,10 +64,7 @@ def recommender():
     fabric_choice = st.sidebar.selectbox("fabric", menu_fabric)
     #num_of_rec = st.sidebar.number_input("Number",1,10,7)
     if st.sidebar.button("Recommend"):
-        #letRecommend(search_term, num_of_rec)
-        color_choice_2 = cf.find_name(color_choice)
-        st.write("color choice: " + color_choice_2)
-        letRecommend(color_choice_2, fabric_choice)
+        goRecommend(color_choice, fabric_choice)
 
 
 def main():
@@ -80,8 +73,6 @@ def main():
     menu = ["Home","Recommend", "About"]
     choice = st.sidebar.selectbox("Menu", menu)
 
-    rec.createModel()
-    rec.loadModel()
 
     if choice == "Home":
         home()
