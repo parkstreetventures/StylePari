@@ -40,7 +40,7 @@ TFIDF_MODEL_PATH = "./model/data_tfidf.pkl"
 COLUMN_NAME = ['title', 'desc', 'keywords', 'url','score']
 
 
-def recommendationEngine(color_choice, fabric_choice, N=1):
+def recommendationEngine(color_choice, fabric_choice, pattern_choice, sleeve_choice, strap_choice, N=1):
     color_name = fc.find_name(color_choice)
     #color_name = "red"
     parseDataFile()
