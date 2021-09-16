@@ -163,7 +163,7 @@ def filterRecommendations(N, scores):
     count = 0
     for i in top:
         #recommendation.at[count, 'url'] = df_rec['recipe_urls'][i]
-        recommendation.at[count, COLUMN_NAME[3]] = "./images/download_filename_1.jpg"
+        recommendation.at[count, COLUMN_NAME[3]] = getRandomImage(df_rec[COLUMN_NAME[3]][i])
         recommendation.at[count, COLUMN_NAME[0]] = title_parser(df_rec[COLUMN_NAME[0]][i])
         recommendation.at[count, COLUMN_NAME[1]] = title_parser(df_rec[COLUMN_NAME[1]][i])
         recommendation.at[count, COLUMN_NAME[2]] = df_rec[COLUMN_NAME[2]][i]
@@ -246,3 +246,8 @@ def remove_special_characters(text, remove_digits=True):
     text = re.sub(pattern, '', text)
     return text
 
+import random
+def getRandomImage(img):
+    random_number = random.randint(0,48)
+    image_name = "./images/download_filename_" + str(random_number) +".jpg"
+    return (image_name)
